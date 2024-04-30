@@ -1,27 +1,34 @@
+import 'package:click/screens/screens/auth/auth_screen.dart';
+import 'package:click/screens/screens/no_internet/no_internet_screen.dart';
+import 'package:click/screens/screens/on_boarding/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
+import 'screens/payment/payment_screen.dart';
+import 'screens/splash/splash_screen.dart';
+import 'screens/tab/tab_screen.dart';
+import 'screens/transfer/transfer_screen.dart';
 
 
 class AppRoutes {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteNames.splashScreen:
-      //   return navigate(const SplashScreen());
-      //
-      // case RouteNames.tabRoute:
-      //   return navigate(const TabScreen());
-      //
-      // case RouteNames.noInternetRoute:
-      //   return navigate(NoInternetScreen(
-      //       onInternetComeBack: settings.arguments as VoidCallback));
-      //
-      // case RouteNames.transferRoute:
-      //   return navigate(const TransferScreen());
-      // case RouteNames.paymentRoute:
-      //   return navigate(const PaymentScreen());
-      // case RouteNames.authRoute:
-      //   return navigate(const AuthScreen());
-      // case RouteNames.onBoardingRoute:
-      //   return navigate(const OnBoardingScreen());
+        return navigate(const SplashScreen());
+
+      case RouteNames.tabRoute:
+        return navigate(const TabScreen());
+
+      case RouteNames.noInternetRoute:
+        return navigate(NoInternetScreen(
+            onInternetComeBack: settings.arguments as VoidCallback));
+
+      case RouteNames.transferRoute:
+        return navigate(const TransferScreen());
+      case RouteNames.paymentRoute:
+        return navigate(const PaymentScreen());
+      case RouteNames.authRoute:
+        return navigate(const AuthScreen());
+      case RouteNames.onBoardingRoute:
+        return navigate(const OnBoardingScreen());
 
       default:
         return navigate(
@@ -39,8 +46,6 @@ class AppRoutes {
   }
 }
 
-class NoInternetScreen {
-}
 
 class RouteNames {
   static const String splashScreen = "/";
