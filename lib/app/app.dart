@@ -3,6 +3,7 @@ import 'package:click/data/repositories/auth_repository.dart';
 import 'package:click/service/local_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../screens/routes.dart';
 
@@ -21,11 +22,20 @@ class App extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => AuthBloc()),
         ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialRoute: RouteNames.splashScreen,
-          navigatorKey: navigatorKey,
-          onGenerateRoute: AppRoutes.generateRoute,
+        child: ScreenUtilInit(
+          designSize: const Size(430, 930),
+          builder: (context, child) {
+            ScreenUtil.init(context);
+            return MaterialApp(
+              theme: ThemeData(
+                useMaterial3: false
+              ),
+              debugShowCheckedModeBanner: false,
+              initialRoute: RouteNames.splashScreen,
+              navigatorKey: navigatorKey,
+              onGenerateRoute: AppRoutes.generateRoute,
+            );
+          },
         ),
       ),
     );

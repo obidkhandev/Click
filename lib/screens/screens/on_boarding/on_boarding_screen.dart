@@ -1,11 +1,13 @@
 import 'package:click/data/local/storage_repository.dart';
 import 'package:click/screens/routes.dart';
 import 'package:click/screens/screens/on_boarding/pages/boarding_page_one.dart';
+import 'package:click/utils/styles/app_text_style.dart';
+import 'package:click/utils/tools/file_importer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'pages/boarding_page_three.dart';
 import 'pages/boarding_page_two.dart';
-
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -21,45 +23,77 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              controller: controller,
-              onPageChanged: (index) {},
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                BoardingPageOne(),
-                BoardingPageTwo(),
-                BoardingPageThree(),
-              ],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.blue1,
+        onPressed: () {
+          if (activeIndex == 2) {
+            StorageRepository.setBool(
+              key: "is_new_user",
+              value: true,
+            ).then(
+              (value) {
+                Navigator.pushReplacementNamed(context, RouteNames.authRoute);
+              },
+            );
+          } else {
+            activeIndex += 1;
+            controller.animateToPage(
+              activeIndex,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.linear,
+            );
+          }
+        },
+        child: const Text(
+          'Next',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(10.sp),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            10.verticalSpace,
+            Align(
+              alignment: Alignment.topRight,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, RouteNames.authRoute);
+                },
+                child: Text(
+                  'Skip',
+                  style: AppTextStyle.interMedium.copyWith(
+                    color: AppColors.blue1,
+                  ),
+                ),
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: () {
-              if (activeIndex == 2) {
-                StorageRepository.setBool(
-                  key: "is_new_user",
-                  value: true,
-                ).then(
-                  (value) {
-                    Navigator.pushReplacementNamed(
-                        context, RouteNames.authRoute);
-                  },
-                );
-              } else {
-                activeIndex += 1;
-                controller.animateToPage(
-                  activeIndex,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.linear,
-                );
-              }
-            },
-            child: Text("Next"),
-          )
-        ],
+            Expanded(
+              child: PageView(
+                controller: controller,
+                onPageChanged: (index) {
+                  activeIndex = index;
+                  setState(() {});
+                },
+                physics: const NeverScrollableScrollPhysics(),
+                children: const [
+                  BoardingPageOne(),
+                  BoardingPageTwo(),
+                  BoardingPageThree(),
+                ],
+              ),
+            ),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 10.w),
+              child: Text(
+                "${activeIndex + 1}/3",
+                style: AppTextStyle.interMedium.copyWith(fontSize: 18.sp),
+              ),
+            ),
+            10.verticalSpace,
+          ],
+        ),
       ),
     );
   }
