@@ -14,15 +14,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterEvent>((event, emit) async {
       try {
         emit(AuthLoadState(isLoad: true));
+
+        if(event.userModel.name == ''){
+          emit(AuthErrorState("Siz isimni kiritmadingiz"));
+        }
         if (event.userModel.password == event.confirmPassword) {
           NetworkResponse networkResponse = await AuthRepository()
               .signUp(event.userModel.email, event.userModel.password);
-          if (networkResponse.errorText != null) {
+          if (networkResponse.errorText == null) {
             emit(AuthSuccessState(networkResponse.data));
           } else {
             emit(AuthErrorState(networkResponse.errorText.toString()));
           }
-        } else {
+        }
+
+        else if(event.confirmPassword == ''){
+          emit(AuthErrorState("Parolni tasdiqlang"));
+        }
+        else {
           emit(AuthErrorState("Sizning parolingiz mos kelmadi"));
         }
       } catch (e) {
@@ -35,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthLoadState(isLoad: true));
         NetworkResponse networkResponse =
             await AuthRepository().signIn(event.email, event.password);
-        if (networkResponse.errorText != null) {
+        if (networkResponse.errorText == null) {
           emit(AuthSuccessState(networkResponse.data));
         } else {
           emit(AuthErrorState(networkResponse.errorText.toString()));

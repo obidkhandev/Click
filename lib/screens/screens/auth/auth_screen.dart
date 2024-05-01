@@ -1,11 +1,11 @@
 import 'package:click/bloc/auth/auth_bloc.dart';
 import 'package:click/data/models/user_model.dart';
 import 'package:click/screens/routes.dart';
-import 'package:click/screens/screens/tab/home/home_screen.dart';
 import 'package:click/screens/screens/widgets/rounded_button.dart';
 import 'package:click/utils/tools/file_importer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -36,18 +36,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Scaffold(
           body: BlocConsumer<AuthBloc, AuthState>(
         builder: (BuildContext context, AuthState state) {
+
           if (state is AuthLoadState) {
             return const Center(
               child: CupertinoActivityIndicator(),
             );
           }
-          if (state is AuthErrorState) {
-            return Center(
-              child: Text(
-                state.errorText,
-              ),
-            );
-          }
+
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
@@ -175,6 +170,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
           );
         },
         listener: (BuildContext context, AuthState state) {
+
+
+          if (state is AuthErrorState) {
+             Fluttertoast.showToast(
+                msg: state.errorText,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+          }
+
           if (state is AuthSuccessState) {
             Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
           }

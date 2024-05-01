@@ -38,6 +38,8 @@ dependencies:
   my_utils:
     path: package/my_utils
   flutter_screenutil: ^5.9.0
+  fluttertoast: ^8.2.5
+  rename: ^3.0.2
 
 dev_dependencies:
   flutter_test:
