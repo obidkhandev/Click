@@ -32,7 +32,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               value: true,
             ).then(
               (value) {
-                Navigator.pushReplacementNamed(context, RouteNames.authRoute);
+                Navigator.pushReplacementNamed(context, RouteNames.register);
               },
             );
           } else {
@@ -59,7 +59,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               alignment: Alignment.topRight,
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, RouteNames.authRoute);
+                  Navigator.pushReplacementNamed(context, RouteNames.register);
                 },
                 child: Text(
                   'Skip',

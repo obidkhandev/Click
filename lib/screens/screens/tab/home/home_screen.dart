@@ -1,4 +1,6 @@
+import 'package:click/bloc/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +12,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: Colors.red,
+      body: Column(
+        children: [
+          TextButton(onPressed: (){
+            context.read<AuthBloc>().add(LogOutEvent());
+          }, child: Text("LogOut"),
+          )
+        ],
+      ),
+    );
   }
 }

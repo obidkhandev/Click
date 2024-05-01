@@ -1,6 +1,6 @@
-import 'package:click/utils/colors/app_colors.dart';
-import 'package:flutter/material.dart';
-import 'package:my_utils/my_utils.dart';
+
+
+import '../tools/file_importer.dart';
 
 class AppTextStyle {
   //Inter

@@ -1,4 +1,5 @@
 import 'package:click/screens/screens/auth/auth_screen.dart';
+import 'package:click/screens/screens/auth/login.dart';
 import 'package:click/screens/screens/no_internet/no_internet_screen.dart';
 import 'package:click/screens/screens/on_boarding/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,12 @@ class AppRoutes {
 
       case RouteNames.transferRoute:
         return navigate(const TransferScreen());
+        case RouteNames.loginScreen:
+        return navigate(const LoginScreen());
       case RouteNames.paymentRoute:
         return navigate(const PaymentScreen());
-      case RouteNames.authRoute:
-        return navigate(const AuthScreen());
+      case RouteNames.register:
+        return navigate(const RegisterScreen());
       case RouteNames.onBoardingRoute:
         return navigate(const OnBoardingScreen());
 
@@ -49,8 +52,9 @@ class AppRoutes {
 
 class RouteNames {
   static const String splashScreen = "/";
+  static const String loginScreen = "/login";
   static const String tabRoute = "/tab_route";
-  static const String authRoute = "/auth_route";
+  static const String register = "/auth_route";
   static const String noInternetRoute = "/no_internet_route";
   static const String paymentRoute = "/payment_route";
   static const String transferRoute = "/transfer_route";

@@ -22,7 +22,7 @@ class RoundedButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: AppTextStyle.interBold.copyWith(color: AppColors.mainColor),
+          style: AppTextStyle.interBold.copyWith(color: AppColors.white),
         ));
   }
 }

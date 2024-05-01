@@ -1,14 +1,11 @@
-import 'package:click/data/local/storage_repository.dart';
-import 'package:click/screens/routes.dart';
-import 'package:click/screens/screens/widgets/rounded_button.dart';
-import 'package:click/utils/colors/app_colors.dart';
-import 'package:click/utils/images/app_images.dart';
-import 'package:click/utils/styles/app_text_style.dart';
+
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_utils/my_utils.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../../../data/local/storage_repository.dart';
+import '../../../utils/tools/file_importer.dart';
+import '../../routes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (user == null) {
       bool isNewUser = StorageRepository.getBool(key: "is_new_user");
       if (isNewUser) {
-        Navigator.pushReplacementNamed(context, RouteNames.authRoute);
+        Navigator.pushReplacementNamed(context, RouteNames.register);
       } else {
         Navigator.pushReplacementNamed(context, RouteNames.onBoardingRoute);
       }
@@ -46,8 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
+
 
     return Scaffold(
       backgroundColor: AppColors.mainColor,
