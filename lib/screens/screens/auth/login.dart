@@ -1,9 +1,10 @@
 import 'package:click/bloc/auth/auth_bloc.dart';
 import 'package:click/screens/routes.dart';
-import 'package:click/screens/screens/widgets/rounded_button.dart';
 import 'package:click/utils/tools/file_importer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../../utils/constants/app_constants.dart';
+import '../widgets/button_container.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +16,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool isLoadButton = false;
 
   @override
   void dispose() {
@@ -45,7 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   20.verticalSpace,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      context.read<AuthBloc>().add(LoginWithGoogle());
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 15.w, vertical: 10.h),
@@ -88,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyBoardType: TextInputType.text,
                     controller: emailController,
                     hintText: "Email",
+                    regExp: AppValidates.emailExp,
                   ),
                   MyTextFieldWidget(
                     isObscureText: true,
@@ -100,14 +106,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: SizedBox(
                       width: width(context) * 0.8,
                       height: 46.h,
-                      child: RoundedButton(
-                        text: "Get Started Now",
-                        onTap: () {
+                      child: ButtonContainer(
+                        onTap: (){
                           context.read<AuthBloc>().add(
-                                LoginEvent(emailController.text,
-                                    passwordController.text),
-                              );
+                            LoginEvent(emailController.text,
+                                passwordController.text),
+                          );
+
                         },
+                        title: 'Register',
+                        isLoading: isLoadButton,
+
+                        borderColor: AppColors.secondaryColor,
                       ),
                     ),
                   ),
@@ -140,7 +150,16 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         },
+            listenWhen: (last,current){
+              if(current is AuthErrorState || current is AuthSuccessState){
+                return true;
+              }
+              return false;
+            },
         listener: (BuildContext context, AuthState state) {
+          if(state is AuthLoadState){
+            isLoadButton = true;
+          }
           if (state is AuthErrorState) {
             Fluttertoast.showToast(
                 msg: state.errorText,
@@ -153,6 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
 
           if (state is AuthSuccessState) {
+            isLoadButton = false;
             Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
           }
         },

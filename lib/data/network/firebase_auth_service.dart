@@ -1,6 +1,8 @@
 import 'package:click/data/network/response.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../utils/extentions/auth_extentions.dart';
+
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -11,8 +13,13 @@ class FirebaseAuthService {
         password: password,
       );
       return NetworkResponse(data: userCredential);
-    } catch (e) {
-      return NetworkResponse(errorText: "$e");
+    } on FirebaseAuthException catch (e) {
+      return NetworkResponse(
+        errorText: SignUpWithEmailAndPasswordFailure.fromCode(e.code).message,
+      );
+    } catch (error) {
+      return NetworkResponse(
+          errorText: "An unknown exception occurred: $error");
     }
   }
 
@@ -24,8 +31,13 @@ class FirebaseAuthService {
         password: password,
       );
       return NetworkResponse(data: userCredential);
-    } catch (e) {
-      return NetworkResponse(errorText: "$e");
+    } on FirebaseAuthException catch (e) {
+      return NetworkResponse(
+        errorText: LogInWithEmailAndPasswordFailure.fromCode(e.code).message,
+      );
+    } catch (error) {
+      return NetworkResponse(
+          errorText: "An unknown exception occurred: $error");
     }
   }
 

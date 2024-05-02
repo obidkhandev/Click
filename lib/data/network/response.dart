@@ -1,5 +1,5 @@
 class NetworkResponse{
-  final String? errorText;
+  final String errorText;
   final dynamic data;
 
   NetworkResponse({

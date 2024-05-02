@@ -1,11 +1,14 @@
 import 'package:click/bloc/auth/auth_bloc.dart';
 import 'package:click/data/models/user_model.dart';
 import 'package:click/screens/routes.dart';
+import 'package:click/screens/screens/widgets/button_container.dart';
 import 'package:click/screens/screens/widgets/rounded_button.dart';
 import 'package:click/utils/tools/file_importer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../../utils/constants/app_constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -19,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmController = TextEditingController();
+  bool isLoadButton = false;
 
   @override
   void dispose() {
@@ -35,12 +39,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
           body: BlocConsumer<AuthBloc, AuthState>(
+        buildWhen: (last, current) {
+          if (current is! AuthErrorState || current is! AuthSuccessState) {
+            return true;
+          }
+          return false;
+        },
         builder: (BuildContext context, AuthState state) {
-
           if (state is AuthLoadState) {
-            return const Center(
-              child: CupertinoActivityIndicator(),
-            );
+            isLoadButton = true;
           }
 
           return SingleChildScrollView(
@@ -58,7 +65,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   20.verticalSpace,
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      context.read<AuthBloc>().add(LoginWithGoogle());
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 15.w, vertical: 10.h),
@@ -106,9 +115,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyBoardType: TextInputType.text,
                     controller: emailController,
                     hintText: "Email",
+                    regExp: AppValidates.emailExp,
                   ),
                   MyTextFieldWidget(
                     isObscureText: true,
+                    regExp: AppValidates.passwordExp,
                     keyBoardType: TextInputType.text,
                     controller: passwordController,
                     hintText: "Password",
@@ -122,23 +133,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   20.verticalSpace,
                   Center(
                     child: SizedBox(
-                      width: width(context) * 0.8,
-                      height: 46.h,
-                      child: RoundedButton(
-                        text: "Register",
-                        onTap: () {
-                          context.read<AuthBloc>().add(
-                                RegisterEvent(
-                                  UserModel(
-                                    email: emailController.text,
-                                    name: nameController.text,
-                                    password: passwordController.text,
-                                  ),
-                                  confirmController.text,
+                        width: width(context) * 0.8,
+                        height: 46.h,
+                        child: ButtonContainer(
+                          onTap: (){
+                            context.read<AuthBloc>().add(
+                              RegisterEvent(
+                                UserModel(
+                                  email: emailController.text,
+                                  name: nameController.text,
+                                  password: passwordController.text,
                                 ),
-                              );
-                        },
-                      ),
+                                confirmController.text,
+                              ),
+                            );
+                          },
+                          title: 'Register',
+                          isLoading: isLoadButton,
+
+                          borderColor: AppColors.secondaryColor,
+                        ),
                     ),
                   ),
                   40.verticalSpace,
@@ -169,22 +183,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         },
+        listenWhen: (last, current) {
+          if (current is AuthErrorState || current is AuthSuccessState) {
+            return true;
+          }
+          return false;
+        },
         listener: (BuildContext context, AuthState state) {
-
-
           if (state is AuthErrorState) {
-             Fluttertoast.showToast(
+            isLoadButton = false;
+            Fluttertoast.showToast(
                 msg: state.errorText,
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.red,
                 textColor: Colors.white,
-                fontSize: 16.0
-            );
+                fontSize: 16.0);
           }
-
           if (state is AuthSuccessState) {
+            isLoadButton = false;
             Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
           }
         },
