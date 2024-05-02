@@ -1,6 +1,5 @@
 import 'package:click/data/network/response.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../utils/extentions/auth_extentions.dart';
 
 class FirebaseAuthService {
