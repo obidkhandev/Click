@@ -26,7 +26,6 @@ class _TabScreenState extends State<TabScreen> {
   ];
   @override
   void initState() {
-    print("hello microTaks");
     Future.microtask(() {
        context.read<UserProfileBloc>().add(GetUserProfileByUuIdEvent());
     });

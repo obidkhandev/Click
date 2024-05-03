@@ -3,6 +3,7 @@ import 'package:click/bloc/user_bloc/user_event.dart';
 import 'package:click/screens/routes.dart';
 import 'package:click/screens/screens/tab/widgets/save_button.dart';
 import 'package:click/screens/screens/tab/widgets/text_input.dart';
+import 'package:click/screens/screens/widgets/button_container.dart';
 import 'package:click/utils/constants/app_constants.dart';
 import 'package:click/utils/tools/file_importer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -95,10 +96,22 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                         ),
                       ),
                     );
-               Navigator.pushNamed(context, RouteNames.tabRoute);
+                context.read<UserProfileBloc>().add(GetUserProfileByUuIdEvent());
+                Navigator.pop(context);
+                // Navigator.pushNamed(context, RouteNames.tabRoute);
               },
               active: checkInput,
               loading: false,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ButtonContainer(
+                title: "DELETE USER",
+                background: Colors.red,
+                isLoading: false,
+                borderColor: Colors.red,
+                onTap: (){},
+              ),
             ),
           ],
         ),

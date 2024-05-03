@@ -24,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, RouteNames.updateScreen,
+              Navigator.pushNamed(context, RouteNames.updateScreen,
                   arguments: context.read<UserProfileBloc>().state.userModel,
               );
             },
