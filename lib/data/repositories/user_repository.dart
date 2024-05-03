@@ -49,6 +49,9 @@ class UserRepository {
           .collection(AppConstants.userTableName)
           .doc(userModel.userId)
           .update(userModel.toJson());
+
+      print("Update User ${userModel.userId} ------------- User ID");
+      print("Update User ${userModel.uuId} -------------  UUID");
     } on FirebaseException catch (_) {
       networkResponse.errorText =
       "Error :(  on FirebaseException catch (_) updateUser";

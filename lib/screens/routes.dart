@@ -1,7 +1,9 @@
+import 'package:click/data/models/user_model.dart';
 import 'package:click/screens/screens/auth/auth_screen.dart';
 import 'package:click/screens/screens/auth/login.dart';
 import 'package:click/screens/screens/no_internet/no_internet_screen.dart';
 import 'package:click/screens/screens/on_boarding/on_boarding_screen.dart';
+import 'package:click/screens/screens/tab/profile/update_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/payment/payment_screen.dart';
 import 'screens/splash/splash_screen.dart';
@@ -32,6 +34,8 @@ class AppRoutes {
         return navigate(const RegisterScreen());
       case RouteNames.onBoardingRoute:
         return navigate(const OnBoardingScreen());
+        case RouteNames.updateScreen:
+        return navigate( UpdateUserScreen(userModel: settings.arguments as UserModel));
 
       default:
         return navigate(
@@ -52,6 +56,7 @@ class AppRoutes {
 
 class RouteNames {
   static const String splashScreen = "/";
+  static const String updateScreen = "/update_screen";
   static const String loginScreen = "/login";
   static const String tabRoute = "/tab_route";
   static const String register = "/auth_route";

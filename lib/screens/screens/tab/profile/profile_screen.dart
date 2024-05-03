@@ -20,17 +20,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+      automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, RouteNames.noInternetRoute,
-                  arguments: context.read<UserProfileBloc>().state.userModel);
+              Navigator.pushReplacementNamed(context, RouteNames.updateScreen,
+                  arguments: context.read<UserProfileBloc>().state.userModel,
+              );
             },
             icon: Icon(
               Icons.settings,
               size: 24.sp,
             ),
           ),
+
           IconButton(
             onPressed: () {
               Navigator.pushNamedAndRemoveUntil(
