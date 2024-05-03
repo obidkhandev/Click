@@ -1,5 +1,8 @@
 class AppConstants {
   static String placeHolder = "";
+  static String userTableName = 'users';
+
+
 }
 class AppValidates {
   static RegExp emailExp = RegExp(

@@ -114,9 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
 
                         },
-                        title: 'Register',
+                        title: 'Get Started',
                         isLoading: isLoadButton,
-
                         borderColor: AppColors.secondaryColor,
                       ),
                     ),
@@ -161,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
             isLoadButton = true;
           }
           if (state is AuthErrorState) {
+            isLoadButton = false;
             Fluttertoast.showToast(
                 msg: state.errorText,
                 toastLength: Toast.LENGTH_SHORT,

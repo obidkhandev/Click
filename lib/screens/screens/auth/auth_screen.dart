@@ -1,10 +1,10 @@
 import 'package:click/bloc/auth/auth_bloc.dart';
+import 'package:click/bloc/user_bloc/user_bloc.dart';
+import 'package:click/bloc/user_bloc/user_event.dart';
 import 'package:click/data/models/user_model.dart';
 import 'package:click/screens/routes.dart';
 import 'package:click/screens/screens/widgets/button_container.dart';
-import 'package:click/screens/screens/widgets/rounded_button.dart';
 import 'package:click/utils/tools/file_importer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -133,26 +133,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   20.verticalSpace,
                   Center(
                     child: SizedBox(
-                        width: width(context) * 0.8,
-                        height: 46.h,
-                        child: ButtonContainer(
-                          onTap: (){
-                            context.read<AuthBloc>().add(
-                              RegisterEvent(
-                                UserModel(
-                                  email: emailController.text,
-                                  name: nameController.text,
-                                  password: passwordController.text,
+                      width: width(context) * 0.8,
+                      height: 46.h,
+                      child: ButtonContainer(
+                        onTap: () {
+                          context.read<AuthBloc>().add(
+                                RegisterEvent(
+                                  UserModel(
+                                      imageUrl: '',
+                                      email: emailController.text,
+                                      userName: nameController.text,
+                                      lastName: '',
+                                      password: passwordController.text,
+                                      phoneNumber: '',
+                                      uuId: '',
+                                      userId: ''),
+                                  confirmController.text,
                                 ),
-                                confirmController.text,
-                              ),
-                            );
-                          },
-                          title: 'Register',
-                          isLoading: isLoadButton,
-
-                          borderColor: AppColors.secondaryColor,
-                        ),
+                              );
+                        },
+                        title: 'Register',
+                        isLoading: isLoadButton,
+                        borderColor: AppColors.secondaryColor,
+                      ),
                     ),
                   ),
                   40.verticalSpace,
@@ -202,6 +205,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 fontSize: 16.0);
           }
           if (state is AuthSuccessState) {
+            context.read<UserProfileBloc>().add(
+                  AddUserProfileEvent(
+                    userModel: UserModel(
+                        imageUrl: '',
+                        email: emailController.text,
+                        userName: nameController.text,
+                        lastName: '',
+                        password: passwordController.text,
+                        phoneNumber: '',
+                        uuId: '',
+                        userId: '',
+                    ),
+                  ),
+                );
             isLoadButton = false;
             Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
           }

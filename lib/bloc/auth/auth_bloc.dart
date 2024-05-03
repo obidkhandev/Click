@@ -14,7 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<RegisterEvent>((event, emit) async {
 
-      if(event.userModel.name.isEmpty){
+      if(event.userModel.userName.isEmpty){
         emit(AuthErrorState("Siz isimni kiritmadingiz"));
         return;
       }
@@ -26,8 +26,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthErrorState("Parolni tasdiqlang"));
         return;
       }
-
-
       try {
         if (event.userModel.password == event.confirmPassword) {
           emit(AuthLoadState(isLoad: true));
@@ -43,12 +41,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthErrorState("Sizning parolingiz mos kelmadi"));
           return;
         }
-
       } catch (e) {
         emit(AuthErrorState('$e'));
       }
     });
-// hi diear
+
+
     on<LoginEvent>((event, emit) async {
       try {
         emit(AuthLoadState(isLoad: true));
@@ -66,7 +64,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LogOutEvent>((event, emit) async {
         emit(AuthLoadState(isLoad: true));
-        NetworkResponse networkResponse = await AuthRepository().logOut();
+       await AuthRepository().logOut();
+       NetworkResponse networkResponse = NetworkResponse(data: UserCredential);
           emit(AuthSuccessState(networkResponse.data));
     });
 
@@ -91,36 +90,3 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
 }
-
-
-
-
-
-
-
-// Future<void> signInWithGoogle(BuildContext context,
-//     [String? clientId]) async {
-//   // Trigger the authentication flow
-//   _notify(true);
-//
-//   final GoogleSignInAccount? googleUser =
-//   await GoogleSignIn(clientId: clientId).signIn();
-//
-//   // Obtain the auth details from the request
-//   final GoogleSignInAuthentication? googleAuth =
-//   await googleUser?.authentication;
-//
-//   // Create a new credential
-//   final credential = GoogleAuthProvider.credential(
-//     accessToken: googleAuth?.accessToken,
-//     idToken: googleAuth?.idToken,
-//   );
-//
-//   // Once signed in, return the UserCredential
-//   UserCredential userCredential =
-//   await FirebaseAuth.instance.signInWithCredential(credential);
-//   _notify(false);
-//   if (userCredential.user != null) {
-//     Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
-//   }
-// }

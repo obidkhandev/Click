@@ -1,5 +1,8 @@
 import 'package:click/bloc/auth/auth_bloc.dart';
+import 'package:click/bloc/connectivity/connectivity_bloc.dart';
+import 'package:click/bloc/user_bloc/user_bloc.dart';
 import 'package:click/data/repositories/auth_repository.dart';
+import 'package:click/data/repositories/user_repository.dart';
 import 'package:click/service/local_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,10 +20,17 @@ class App extends StatelessWidget {
     LocalNotificationService.localNotificationService.init(navigatorKey);
 
     return MultiRepositoryProvider(
-      providers: [RepositoryProvider(create: (_) => AuthRepository())],
+      providers: [RepositoryProvider(create: (_) => AuthRepository()),
+        RepositoryProvider(create: (_) => UserRepository()),
+      ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (_) => ConnectivityBloc()),
+          BlocProvider(
+              create: (context) =>
+                  UserProfileBloc(context.read<UserRepository>())),
           BlocProvider(create: (context) => AuthBloc()),
+
         ],
         child: ScreenUtilInit(
           designSize: const Size(430, 930),
