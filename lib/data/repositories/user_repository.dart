@@ -50,8 +50,6 @@ class UserRepository {
           .doc(userModel.userId)
           .update(userModel.toJson());
 
-      print("Update User ${userModel.userId} ------------- User ID");
-      print("Update User ${userModel.uuId} -------------  UUID");
     } on FirebaseException catch (_) {
       networkResponse.errorText =
       "Error :(  on FirebaseException catch (_) updateUser";
@@ -111,11 +109,8 @@ class UserRepository {
     User? user = FirebaseAuth.instance.currentUser;
     String uuId = "";
     if (user != null) {
-      // debugPrint("UUID getUserByUuId: ${user.uid}------");
-
       uuId = user.uid;
     }
-
     try {
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection(AppConstants.userTableName)
@@ -125,7 +120,6 @@ class UserRepository {
       List<UserModel> users = querySnapshot.docs
           .map((e) => UserModel.fromJson(UserModel.convertMap(e)))
           .toList();
-      // debugPrint(querySnapshot.docs.toString());
 
       networkResponse.data = users.isEmpty ? UserModel.initial() : users.first;
     } on FirebaseException catch (_) {

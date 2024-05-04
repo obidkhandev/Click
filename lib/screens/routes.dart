@@ -10,7 +10,6 @@ import 'screens/splash/splash_screen.dart';
 import 'screens/tab/tab_screen.dart';
 import 'screens/transfer/transfer_screen.dart';
 
-
 class AppRoutes {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -26,7 +25,7 @@ class AppRoutes {
 
       case RouteNames.transferRoute:
         return navigate(const TransferScreen());
-        case RouteNames.loginScreen:
+      case RouteNames.loginScreen:
         return navigate(const LoginScreen());
       case RouteNames.paymentRoute:
         return navigate(const PaymentScreen());
@@ -34,8 +33,10 @@ class AppRoutes {
         return navigate(const RegisterScreen());
       case RouteNames.onBoardingRoute:
         return navigate(const OnBoardingScreen());
-        case RouteNames.updateScreen:
-        return navigate( UpdateUserScreen(userModel: settings.arguments as UserModel));
+      case RouteNames.updateScreen:
+        return navigate(
+            UpdateUserScreen(userModel: settings.arguments as UserModel));
+
 
       default:
         return navigate(
@@ -53,10 +54,11 @@ class AppRoutes {
   }
 }
 
-
 class RouteNames {
   static const String splashScreen = "/";
   static const String updateScreen = "/update_screen";
+  static const String pinTestScreen = "/pin_test_screen";
+  static const String pinSetScreen = "/pin_set_screen";
   static const String loginScreen = "/login";
   static const String tabRoute = "/tab_route";
   static const String register = "/auth_route";

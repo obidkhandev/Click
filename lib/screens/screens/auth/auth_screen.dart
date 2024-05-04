@@ -2,6 +2,7 @@ import 'package:click/bloc/auth/auth_bloc.dart';
 import 'package:click/bloc/user_bloc/user_bloc.dart';
 import 'package:click/bloc/user_bloc/user_event.dart';
 import 'package:click/data/models/user_model.dart';
+import 'package:click/screens/local_auth/set_password.dart';
 import 'package:click/screens/routes.dart';
 import 'package:click/screens/screens/widgets/button_container.dart';
 import 'package:click/utils/tools/file_importer.dart';
@@ -220,7 +221,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 );
             isLoadButton = false;
-            Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
+            // BlocProvider.of<UserProfileBloc>(context).add(
+            //   GetCurrentUserEvent(
+            //     uid: FirebaseAuth.instance.currentUser!.uid,
+            //   ),
+            // );
+            context.read<UserProfileBloc>().add(GetUserProfileByUuIdEvent());
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PinScreen(),
+              ),
+            );
           }
         },
       )),

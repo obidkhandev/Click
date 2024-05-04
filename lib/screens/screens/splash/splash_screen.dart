@@ -1,5 +1,7 @@
 
 
+import 'package:click/screens/local_auth/entry_password.dart';
+import 'package:click/screens/local_auth/set_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -30,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacementNamed(context, RouteNames.onBoardingRoute);
       }
     } else {
-      Navigator.pushReplacementNamed(context, RouteNames.tabRoute);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>EnterScreen()));
     }
   }
 

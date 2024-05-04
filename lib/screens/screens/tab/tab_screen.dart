@@ -26,6 +26,7 @@ class _TabScreenState extends State<TabScreen> {
   ];
   @override
   void initState() {
+    debugPrint("Hello microtask from Tab screen");
     Future.microtask(() {
        context.read<UserProfileBloc>().add(GetUserProfileByUuIdEvent());
     });
@@ -39,10 +40,7 @@ class _TabScreenState extends State<TabScreen> {
       child: BlocBuilder<TabBoxCubit, int>(
         builder: (BuildContext context, int state) {
           return Scaffold(
-            body: IndexedStack(
-              index: state,
-              children: _screens,
-            ),
+            body: _screens[state],
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: state,
               onTap: context.read<TabBoxCubit>().changeValue,

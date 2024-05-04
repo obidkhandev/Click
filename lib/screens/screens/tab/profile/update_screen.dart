@@ -24,13 +24,16 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   late UserModel userModel;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
     userModel = widget.userModel;
     emailController.text = userModel.email;
-    fullNameController.text = "${userModel.userName} ${userModel.lastName}";
-
+    fullNameController.text = userModel.userName;
+    passwordController.text = userModel.password;
     super.initState();
   }
 
@@ -38,82 +41,106 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 90.h,
-              width: width(context),
-            ),
-            Container(
-              width: 150.w,
-              height: 150.w,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      blurRadius: 20,
-                      spreadRadius: 3),
-                ],
-                image: DecorationImage(
-                  image: userModel.imageUrl.isEmpty
-                      ? const NetworkImage(
-                          "https://cdn-icons-png.flaticon.com/512/3135/3135715.png")
-                      : NetworkImage(userModel.imageUrl) as ImageProvider,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              20.verticalSpace,
+              Container(
+                width: 150.w,
+                height: 150.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        blurRadius: 20,
+                        spreadRadius: 3),
+                  ],
+                  image: DecorationImage(
+                    image: userModel.imageUrl.isEmpty
+                        ? const NetworkImage(
+                            "https://cdn-icons-png.flaticon.com/512/3135/3135715.png")
+                        : NetworkImage(userModel.imageUrl) as ImageProvider,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20.h),
-            UniversalTextInput(
-              controller: emailController,
-              hintText: "Email",
-              type: TextInputType.emailAddress,
-              regExp: AppValidates.emailExp,
-              onChange: (v) {
-                setState(() {});
-              },
-              errorTitle: "Invalid input",
-            ),
-            UniversalTextInput(
-              controller: fullNameController,
-              hintText: "Full name",
-              type: TextInputType.emailAddress,
-              regExp: AppValidates.nameRegExp,
-              onChange: (v) {
-                setState(() {});
-              },
-              errorTitle: "Invalid input",
-            ),
-            SaveButton(
-              onTab: () {
-                context.read<UserProfileBloc>().add(
-                      UpdateUserProfileEvent(
-                        userModel: userModel.copyWith(
-                          email: emailController.text,
-                          userName: fullNameController.text,
-                          uuId: FirebaseAuth.instance.currentUser!.uid,
+              SizedBox(height: 20.h),
+              MyTextFieldWidget(
+                keyBoardType: TextInputType.text,
+                controller: emailController,
+              ),
+              MyTextFieldWidget(
+                hintText: "last name",
+                keyBoardType: TextInputType.text,
+                controller: lastNameController,
+              ),
+              MyTextFieldWidget(
+                hintText: "first name",
+                keyBoardType: TextInputType.text,
+                controller: fullNameController,
+              ),
+              MyTextFieldWidget(
+                keyBoardType: TextInputType.text,
+                hintText: "phone number",
+                controller: phoneNumberController,
+              ),
+              MyTextFieldWidget(
+                hintText: "password",
+                keyBoardType: TextInputType.text,
+                controller: passwordController,
+                isObscureText: true,
+              ),
+              10.verticalSpace,
+              ButtonContainer(
+                title: "Update User",
+                background: Colors.blue,
+                isLoading: false,
+                borderColor: Colors.blue,
+                onTap: () {
+                  context.read<UserProfileBloc>().add(
+                        UpdateUserProfileEvent(
+                          userModel: userModel.copyWith(
+                            email: emailController.text,
+                            userName: fullNameController.text,
+                            uuId: FirebaseAuth.instance.currentUser!.uid,
+                            lastName: lastNameController.text,
+                            phoneNumber: phoneNumberController.text,
+                            password: passwordController.text,
+                          ),
                         ),
-                      ),
-                    );
-                context.read<UserProfileBloc>().add(GetUserProfileByUuIdEvent());
-                Navigator.pop(context);
-                // Navigator.pushNamed(context, RouteNames.tabRoute);
-              },
-              active: checkInput,
-              loading: false,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ButtonContainer(
+                      );
+                  context
+                      .read<UserProfileBloc>()
+                      .add(GetUserProfileByUuIdEvent());
+                  Navigator.pop(context);
+                },
+              ),
+              15.verticalSpace,
+              ButtonContainer(
                 title: "DELETE USER",
                 background: Colors.red,
                 isLoading: false,
                 borderColor: Colors.red,
-                onTap: (){},
+                onTap: () {
+                  context.read<UserProfileBloc>().add(
+                        DeleteUserProfileEvent(
+                          userModel: userModel.copyWith(
+                            email: emailController.text,
+                            userName: fullNameController.text,
+                            uuId: FirebaseAuth.instance.currentUser!.uid,
+                            lastName: lastNameController.text,
+                            phoneNumber: phoneNumberController.text,
+                            password: passwordController.text,
+                          ),
+                        ),
+                      );
+                  Navigator.pushReplacementNamed(context, RouteNames.loginScreen);
+                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -128,7 +155,9 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   void dispose() {
     emailController.dispose();
     fullNameController.dispose();
-
+    lastNameController.dispose();
+    passwordController.dispose();
+    phoneNumberController.dispose();
     super.dispose();
   }
 }

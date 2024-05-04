@@ -1,5 +1,6 @@
 import 'package:click/bloc/auth/auth_bloc.dart';
 import 'package:click/bloc/user_bloc/user_bloc.dart';
+import 'package:click/bloc/user_bloc/user_event.dart';
 import 'package:click/bloc/user_bloc/user_state.dart';
 import 'package:click/screens/routes.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,16 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+  @override
+  void initState() {
+    debugPrint("Hello microtask from Tab screen");
+    Future.microtask(() {
+      context.read<UserProfileBloc>().add(GetUserProfileByUuIdEvent());
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
