@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacementNamed(context, RouteNames.onBoardingRoute);
       }
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>EnterScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>EntryPinScreen()));
     }
   }
 

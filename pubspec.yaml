@@ -41,6 +41,7 @@ dependencies:
   fluttertoast: ^8.2.5
   rename: ^3.0.2
   local_auth: ^2.2.0
+  pinput: ^4.0.0
 
 dev_dependencies:
   flutter_test:

@@ -3,8 +3,6 @@ import 'package:click/bloc/connectivity/connectivity_bloc.dart';
 import 'package:click/bloc/user_bloc/user_bloc.dart';
 import 'package:click/data/repositories/auth_repository.dart';
 import 'package:click/data/repositories/user_repository.dart';
-import 'package:click/screens/local_auth/cubit/check_password.dart';
-import 'package:click/screens/local_auth/cubit/local_auth_cubit.dart';
 import 'package:click/service/local_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,8 +30,6 @@ class App extends StatelessWidget {
               create: (context) =>
                   UserProfileBloc(context.read<UserRepository>())),
           BlocProvider(create: (context) => AuthBloc()),
-          BlocProvider(create: (_) => PasswordCubit()),
-          BlocProvider(create: (_) => CheckCubit()),
         ],
         child: ScreenUtilInit(
           designSize: const Size(430, 930),

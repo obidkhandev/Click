@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 part 'auth_event.dart';
-
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -63,10 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<LogOutEvent>((event, emit) async {
-        emit(AuthLoadState(isLoad: true));
        await AuthRepository().logOut();
-       NetworkResponse networkResponse = NetworkResponse(data: UserCredential);
-          emit(AuthSuccessState(networkResponse.data));
     });
 
 // hello world

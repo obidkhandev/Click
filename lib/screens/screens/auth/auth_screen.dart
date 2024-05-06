@@ -221,18 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 );
             isLoadButton = false;
-            // BlocProvider.of<UserProfileBloc>(context).add(
-            //   GetCurrentUserEvent(
-            //     uid: FirebaseAuth.instance.currentUser!.uid,
-            //   ),
-            // );
-            context.read<UserProfileBloc>().add(GetUserProfileByUuIdEvent());
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PinScreen(),
-              ),
-            );
+            Navigator.pushReplacementNamed(context, RouteNames.setPinRoute);
           }
         },
       )),

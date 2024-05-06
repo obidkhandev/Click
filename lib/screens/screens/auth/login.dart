@@ -177,12 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is AuthSuccessState) {
             isLoadButton = false;
             context.read<UserProfileBloc>().add(GetUserProfileByUuIdEvent());
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PinScreen(),
-              ),
-            );
+            Navigator.pushReplacementNamed(context, RouteNames.setPinRoute);
           }
         },
       )),

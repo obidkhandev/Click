@@ -1,4 +1,7 @@
 import 'package:click/data/models/user_model.dart';
+import 'package:click/screens/biometric/touch_id.dart';
+import 'package:click/screens/local_auth/confirm_pin.dart';
+import 'package:click/screens/local_auth/set_password.dart';
 import 'package:click/screens/screens/auth/auth_screen.dart';
 import 'package:click/screens/screens/auth/login.dart';
 import 'package:click/screens/screens/no_internet/no_internet_screen.dart';
@@ -33,10 +36,16 @@ class AppRoutes {
         return navigate(const RegisterScreen());
       case RouteNames.onBoardingRoute:
         return navigate(const OnBoardingScreen());
+      case RouteNames.touchIdRoute:
+        return navigate(const TouchIdScreen());
+      case RouteNames.confirmPinRoute:
+        return navigate(
+            ConfirmPinScreen(previousPin: settings.arguments as String));
+      case RouteNames.setPinRoute:
+        return navigate(SetPinScreen());
       case RouteNames.updateScreen:
         return navigate(
             UpdateUserScreen(userModel: settings.arguments as UserModel));
-
 
       default:
         return navigate(
@@ -57,8 +66,10 @@ class AppRoutes {
 class RouteNames {
   static const String splashScreen = "/";
   static const String updateScreen = "/update_screen";
-  static const String pinTestScreen = "/pin_test_screen";
-  static const String pinSetScreen = "/pin_set_screen";
+  static const String touchIdRoute = "/touch_id_route";
+  static const String confirmPinRoute = "/confirm_pin_route";
+  static const String setPinRoute = "/set_pin_route";
+
   static const String loginScreen = "/login";
   static const String tabRoute = "/tab_route";
   static const String register = "/auth_route";
