@@ -1,7 +1,6 @@
 import 'package:click/bloc/auth/auth_bloc.dart';
 import 'package:click/bloc/user_bloc/user_bloc.dart';
 import 'package:click/bloc/user_bloc/user_event.dart';
-import 'package:click/screens/local_auth/set_password.dart';
 import 'package:click/screens/routes.dart';
 import 'package:click/utils/tools/file_importer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
