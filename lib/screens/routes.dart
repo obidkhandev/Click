@@ -22,9 +22,9 @@ class AppRoutes {
       case RouteNames.tabRoute:
         return navigate(const TabScreen());
 
-      case RouteNames.noInternetRoute:
-        return navigate(NoInternetScreen(
-            onInternetComeBack: settings.arguments as VoidCallback));
+      // case RouteNames.noInternetRoute:
+      //   return navigate(NoInternetScreen(
+      //       onInternetComeBack: settings.arguments as VoidCallback));
 
       case RouteNames.transferRoute:
         return navigate(const TransferScreen());

@@ -28,7 +28,7 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => ConnectivityBloc()),
+          // BlocProvider(create: (_) => ConnectivityBloc()),
           BlocProvider(
               create: (context) =>
                   UserProfileBloc(context.read<UserRepository>())),
